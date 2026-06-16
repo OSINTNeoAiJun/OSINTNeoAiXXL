@@ -15,6 +15,9 @@ echo "Configuring GCP Auth..."
 gcloud auth login
 gcloud config set project "$PROJECT_ID"
 
+echo "Bootstrapping database schema..."
+bq query --use_legacy_sql=false --project_id="$PROJECT_ID" < bootstrap_db.sql
+
 echo "Deploying to Cloud Run..."
 gcloud run deploy osint-chat-ui-xxl \
   --source . \
